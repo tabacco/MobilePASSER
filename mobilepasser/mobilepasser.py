@@ -5,10 +5,14 @@ import argparse
 import os
 import sys
 
-import ConfigParser
+try:
+    import configparser
+except ImportError:
+    # Python 2 compatibility.
+    import ConfigParser as configparser
 
-from utils.activation_code import InvalidActivationKey, MissingActivationKey
-from utils.token_generation import generate_mobilepass_token
+from mobilepasser.utils.activation_code import InvalidActivationKey, MissingActivationKey
+from mobilepasser.utils.token_generation import generate_mobilepass_token
 
 
 CONFIG_FILE = os.path.expanduser("~/.mobilepasser.cfg")
@@ -32,7 +36,7 @@ parser.add_argument('-a', '--auto-update-index', action="store_true",
                     help='Automatically bump the index by 1 and save to config file.')
 
 args = parser.parse_args()
-Config = ConfigParser.ConfigParser({
+Config = configparser.ConfigParser({
     'index': str(INDEX),
     'policy': POLICY,
     'otp_length': str(LENGTH),
@@ -66,7 +70,7 @@ def main():
         sys.exit(1)
 
     try:
-        print generate_mobilepass_token(key, int(index), policy, int(length))
+        print(generate_mobilepass_token(key, int(index), policy, int(length)))
     except (InvalidActivationKey, MissingActivationKey) as e:
         sys.stderr.write(e.message + '\n')
         sys.exit(1)

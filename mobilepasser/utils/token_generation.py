@@ -6,7 +6,7 @@ import hashlib
 import hmac
 import sys
 
-from activation_code import ActivationCode
+from mobilepasser.utils.activation_code import ActivationCode
 
 # I ported the KDF1 algorithm from the bouncycastle library that shipped with
 # the app as the python libraries that included this function seemed to be

@@ -1,8 +1,8 @@
 import hashlib
 
-import base32
-import base32_checksum
-from activation_payload_v1 import ActivationPayloadV1
+from mobilepasser.utils import base32
+from mobilepasser.utils import base32_checksum
+from mobilepasser.utils.activation_payload_v1 import ActivationPayloadV1
 
 
 class InvalidActivationKey(Exception):
