@@ -1,5 +1,7 @@
 import hashlib
 
+import six
+
 from mobilepasser.utils import base32
 from mobilepasser.utils import base32_checksum
 from mobilepasser.utils.activation_payload_v1 import ActivationPayloadV1
@@ -78,7 +80,7 @@ class ActivationCode:
 
 		hash = hashlib.new('sha256')
 		hash.update(value.tobytes())
-		return hash.digest()[-1]
+		return six.indexbytes(hash.digest(),-1)
 
 	def getEntropy(self):
 		if self.legacy:

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding=utf-8
 
+from __future__ import print_function
+
 import argparse
 import os
 import sys
@@ -11,8 +13,8 @@ except ImportError:
     # Python 2 compatibility.
     import ConfigParser as configparser
 
-from mobilepasser.utils.activation_code import InvalidActivationKey, MissingActivationKey
-from mobilepasser.utils.token_generation import generate_mobilepass_token
+from .utils.activation_code import InvalidActivationKey, MissingActivationKey
+from .utils.token_generation import generate_mobilepass_token
 
 
 CONFIG_FILE = os.path.expanduser("~/.mobilepasser.cfg")
