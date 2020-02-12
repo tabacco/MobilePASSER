@@ -6,6 +6,8 @@ import hashlib
 import hmac
 import sys
 
+import six
+
 from mobilepasser.utils.activation_code import ActivationCode
 
 # I ported the KDF1 algorithm from the bouncycastle library that shipped with
@@ -32,10 +34,10 @@ def KDF1(hash, secret, iv, start_position, key_length): #key should be passed by
 		# only preserves the last byte. So it needed to do some bit math to preserve the whole
 		# counter. This is what we're trying to replicate here.
 		# See: http://stackoverflow.com/questions/2458495/how-are-integers-casted-to-bytes-in-java
-		hash.update(bytes(chr((counter >> 24) & 0xff), encoding='utf8'))
-		hash.update(bytes(chr((counter >> 16) & 0xff), encoding='utf8'))
-		hash.update(bytes(chr((counter >> 8) & 0xff), encoding='utf8'))
-		hash.update(bytes(chr(counter & 0xff), encoding='utf8'))
+		hash.update(six.int2byte((counter >> 24) & 0xff))
+		hash.update(six.int2byte((counter >> 16) & 0xff))
+		hash.update(six.int2byte((counter >> 8) & 0xff))
+		hash.update(six.int2byte(counter & 0xff))
 
 		if iv != "":
 			hash.update(iv)
