@@ -77,7 +77,7 @@ def main():
 
     # Increment the index and save to config if the auto_update_index flag is set
     if update:
-        Config.set('MobilePASS', 'index', int(index) + 1)
+        Config.set('MobilePASS', 'index', str(int(index) + 1))
         cfgfile = open(args.config_file, 'w')
         Config.write(cfgfile)
         cfgfile.close()

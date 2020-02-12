@@ -78,8 +78,7 @@ class ActivationCode:
 
 		hash = hashlib.new('sha256')
 		hash.update(value.tobytes())
-		digest = hash.digest()
-		return ord(digest[-1])
+		return hash.digest()[-1]
 
 	def getEntropy(self):
 		if self.legacy:

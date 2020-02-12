@@ -32,10 +32,10 @@ def KDF1(hash, secret, iv, start_position, key_length): #key should be passed by
 		# only preserves the last byte. So it needed to do some bit math to preserve the whole
 		# counter. This is what we're trying to replicate here.
 		# See: http://stackoverflow.com/questions/2458495/how-are-integers-casted-to-bytes-in-java
-		hash.update(bytes(chr((counter >> 24) & 0xff)))
-		hash.update(bytes(chr((counter >> 16) & 0xff)))
-		hash.update(bytes(chr((counter >> 8) & 0xff)))
-		hash.update(bytes(chr(counter & 0xff)))
+		hash.update(bytes(chr((counter >> 24) & 0xff), encoding='utf8'))
+		hash.update(bytes(chr((counter >> 16) & 0xff), encoding='utf8'))
+		hash.update(bytes(chr((counter >> 8) & 0xff), encoding='utf8'))
+		hash.update(bytes(chr(counter & 0xff), encoding='utf8'))
 
 		if iv != "":
 			hash.update(iv)
@@ -74,7 +74,7 @@ def long_to_byte_array(long_num):
     return byte_array
 
 def truncated_value(h):
-    bytes = bytearray(h.decode("hex"))
+    bytes = bytearray(h)
     offset = bytes[-1] & 0xf
     v = (bytes[offset] & 0x7f) << 24 | (bytes[offset+1] & 0xff) << 16 | \
             (bytes[offset+2] & 0xff) << 8 | (bytes[offset+3] & 0xff)
@@ -95,7 +95,7 @@ def generate_mobilepass_token(activation_key, index, policy='', length=6):
         entropy = code.getEntropy().tobytes()
         key = get_key(entropy, policy)
 
-        h = hmac.new(key, message, hashlib.sha256).hexdigest()
+        h = hmac.new(key, message, hashlib.sha256).digest()
         h = truncated_value(h)
         h = h % (10**length)
         return '%0*d' % (length, h)
